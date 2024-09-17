@@ -1,5 +1,9 @@
 import pandas as pd
 import random
+from colorama import Fore, Style, init
+
+# Initialize colorama for Windows
+init(autoreset=True)
 
 # Load the CSV file
 def load_restaurants(file_path):
@@ -16,29 +20,29 @@ def get_restaurants_by_style(restaurants_df, style):
 # Main script
 def choose_restaurant():
     # Provide the path to your CSV file
-    file_path = r"\your\file\path"  # Adjust to your path
+    file_path = r"\your\file\path  # Adjust to your path
     restaurants_df = load_restaurants(file_path)
 
     while True:
         # Present the unique styles of food
         styles = get_unique_styles(restaurants_df)
-        print("\nAvailable food styles:")
+        print(Fore.CYAN + "\nAvailable food styles:")
         for i, style in enumerate(styles, start=1):
-            print(f"{i}. {style}")
+            print(f"{Fore.GREEN}{i}. {style}")
         
         # Get user's choice of style by number
         try:
-            style_choice = int(input("Please choose a style of food by number or type 'exit' to quit: ").strip())
+            style_choice = int(input(Fore.YELLOW + "Please choose a style of food by number or type 'exit' to quit: ").strip())
         except ValueError:
-            print("Invalid input. Please enter a valid number or 'exit'.")
+            print(Fore.RED + "Invalid input. Please enter a valid number or 'exit'.")
             continue
 
         if style_choice == 'exit':
-            print("Exiting. Have a great day!")
+            print(Fore.MAGENTA + "Exiting. Have a great day!")
             break
 
         if style_choice < 1 or style_choice > len(styles):
-            print("Invalid choice. Please choose a valid number.")
+            print(Fore.RED + "Invalid choice. Please choose a valid number.")
             continue
 
         chosen_style = styles[style_choice - 1]
@@ -48,26 +52,26 @@ def choose_restaurant():
 
         while True:
             # Present the restaurants under the chosen style
-            print(f"\nRestaurants for {chosen_style}:")
+            print(f"{Fore.CYAN}\nRestaurants for {chosen_style}:")
             for i, restaurant in enumerate(restaurants, start=1):
-                print(f"{i}. {restaurant}")
+                print(f"{Fore.GREEN}{i}. {restaurant}")
             
             # Ask the user to choose or go for random, or go back to the previous step
-            user_input = input("Type the restaurant name, 'random' for a random choice, 'back' to choose a different style, or 'exit' to quit: ").strip().lower()
+            user_input = input(f"{Fore.YELLOW}Type the restaurant name, 'random' for a random choice, 'back' to choose a different style, or 'exit' to quit: ").strip().lower()
 
             if user_input == "random":
                 chosen_restaurant = random.choice(restaurants)
-                print(f"Randomly chosen restaurant: {chosen_restaurant}")
+                print(f"{Fore.MAGENTA}Randomly chosen restaurant: {chosen_restaurant}")
             elif user_input == "back":
                 break  # Go back to style selection
             elif user_input == "exit":
-                print("Exiting. Enjoy your meal!")
+                print(Fore.MAGENTA + "Exiting. Enjoy your meal!")
                 return
             elif user_input.capitalize() in restaurants:
-                print(f"You chose: {user_input.capitalize()}")
+                print(f"{Fore.MAGENTA}You chose: {user_input.capitalize()}")
                 return
             else:
-                print("Invalid input. Please choose a valid restaurant name, type 'random', 'back', or 'exit'.")
+                print(Fore.RED + "Invalid input. Please choose a valid restaurant name, type 'random', 'back', or 'exit'.")
             
 # Run the script
 choose_restaurant()
